@@ -24,4 +24,4 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path('',include('ecommerce_app.urls')),
     path('users/', include('users.urls')),
-] + static(settings.ECOMMERCE_MEDIA_URL, document_root=settings.ECOMMERCE_ROOT)
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
