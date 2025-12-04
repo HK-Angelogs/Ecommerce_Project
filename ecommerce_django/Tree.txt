@@ -25,6 +25,19 @@
 │   ├── tests.py
 │   ├── urls.py
 │   └── views.py
+├── ecommerce_cart
+│   ├── admin.py
+│   ├── apps.py
+│   ├── __init__.py
+│   ├── migrations
+│   │   └── __init__.py
+│   ├── models.py
+│   ├── templates
+│   │   ├── cart.html
+│   │   └── cheackout.html
+│   ├── tests.py
+│   ├── urls.py
+│   └── views.py
 ├── ecommerce_django
 │   ├── asgi.py
 │   ├── __init__.py
@@ -9612,11 +9625,13 @@
 │   │   ├── 0001_initial.py
 │   │   ├── 0002_browsinghistory.py
 │   │   ├── 0003_alter_categories_options_categories_parent.py
+│   │   ├── 0004_alter_products_description.py
 │   │   ├── __init__.py
 │   │   └── __pycache__
 │   │       ├── 0001_initial.cpython-313.pyc
 │   │       ├── 0002_browsinghistory.cpython-313.pyc
 │   │       ├── 0003_alter_categories_options_categories_parent.cpython-313.pyc
+│   │       ├── 0004_alter_products_description.cpython-313.pyc
 │   │       └── __init__.cpython-313.pyc
 │   ├── models.py
 │   ├── __pycache__
@@ -9636,16 +9651,31 @@
 │           ├── Acer_Aspire_Go_15.png
 │           ├── Apple_MacBook_Air_M4_13inch.png
 │           ├── ASUS_2025_14_inch_Core_i5_Laptop.png
+│           ├── Asus_Zenbook_14_14-inch.png
 │           ├── Canon_EOS_2000D.png
 │           ├── Canon_EOS_4000D.png
 │           ├── Canon_EOS_600D.png
 │           ├── Canon_EOS_80D.png
 │           ├── Canon_EOS_Rebel_T7.png
+│           ├── Google_Pixel_6_Pro_5G_6.7-inch.png
+│           ├── Google_Pixel_7a_6.1-inch.png
+│           ├── Jbl_Tune_660nc.png
+│           ├── Lenovo_V15_G4_IRU_15.6-inch.png
 │           ├── LG_Gram_Thin_15_5qdKRq1.6-inch.png
 │           ├── LG_Gram_Thin_15.6-inch.png
+│           ├── LG_Gram_Thin_15_aXG9o5I.6-inch.png
+│           ├── LG_Gram_Thin_15_FwrtS0l.6-inch.png
 │           ├── LG_Gram_Thin_15_mw6QCaD.6-inch.png
+│           ├── LG_Gram_Thin_15_nQta2iC.6-inch.png
+│           ├── LG_Gram_Thin_15_QAZKT4K.6-inch.png
+│           ├── LG_Gram_Thin_15_V7q5pn1.6-inch.png
+│           ├── PHILIPS_H6509.png
+│           ├── Poco_M4_Pro_6.43-inch.png
+│           ├── Presonus_Eris_Hd10bt_1.57-inch.png
 │           ├── realme_C71_2025_Smartphone.png
-│           └── Samsung_Galaxy_A56_5G.png
+│           ├── Samsung__Galaxy_A53_5G_6.5-inch.png
+│           ├── Samsung_Galaxy_A56_5G.png
+│           └── Sony_WHXB700.png
 ├── node_modules
 │   ├── autoprefixer
 │   │   ├── bin
@@ -11460,9 +11490,6 @@
 │   ├── 404.html
 │   ├── Base.html
 │   ├── bestseller.html
-│   ├── cart.html
-│   ├── cheackout.html
-│   ├── contact.html
 │   ├── history.html
 │   ├── index.html
 │   ├── Login.html
@@ -11498,4 +11525,4 @@
     ├── urls.py
     └── views.py
 
-3074 directories, 8425 files
+3077 directories, 8449 files

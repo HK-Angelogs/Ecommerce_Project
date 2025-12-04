@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Categories, Products, Orders
+from .models import Categories, Products
 
 # Define a custom admin layout for Categories
 class CategoryAdmin(admin.ModelAdmin):
@@ -15,4 +15,3 @@ class ProductAdmin(admin.ModelAdmin):
 # Register your models
 admin.site.register(Categories, CategoryAdmin)
 admin.site.register(Products, ProductAdmin)
-admin.site.register(Orders)

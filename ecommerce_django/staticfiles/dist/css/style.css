@@ -870,3 +870,7 @@
 
 /*** 
 
+/*** Extra styles ***/
+.product-card:hover .product-overlay-btn {
+    opacity: 1 !important;
+}

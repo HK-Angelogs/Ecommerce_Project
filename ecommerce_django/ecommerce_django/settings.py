@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     "ecommerce_app",
     "users",
     "EcommerceProducts",
+    "ecommerce_cart",
+    "ecommerce_orders",
 
 ]
 

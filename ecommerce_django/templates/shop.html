@@ -3,137 +3,197 @@
 {% load humanize %}
 
 {% block content %}
-
-<div class="container-fluid page-header py-5">
-    <h1 class="text-center text-white display-6 wow fadeInUp" data-wow-delay="0.1s">Shop</h1>
-    <ol class="breadcrumb justify-content-center mb-0 wow fadeInUp" data-wow-delay="0.3s">
-        <li class="breadcrumb-item"><a href="{% url 'home_page' %}">Home</a></li>
-        <li class="breadcrumb-item active text-white">Shop</li>
-    </ol>
-</div>
-<div class="container-fluid shop py-5">
-    <div class="container py-5">
-        <div class="row g-4">
+<div class="container-fluid py-3">
+    <div class="container">
+        <div class="row g-5">
             
-            <div class="col-lg-3 wow fadeInUp" data-wow-delay="0.1s">
-                <div class="product-categories mb-4 border p-4 rounded">
-                    <h4 class="mb-3">Categories</h4>
-                    <ul class="list-unstyled">
-                        <li class="mb-2">
-                            <a href="{% url 'shop_page' %}" class="text-dark fw-bold d-flex justify-content-between">
-                                <span>All Products</span>
-                                <span>({{ products.count }})</span> </a>
-                        </li>
-
-                        {% for category in categories %}
-                        <li class="mb-2">
-                            <div class="categories-item">
-                                <a href="{% url 'shop_category' category.id %}" 
-                                   class="{% if category.id == current_category_id %}text-primary fw-bold{% else %}text-dark{% endif %}">
-                                    <i class="fas fa-angle-right text-secondary me-2"></i>{{ category.name }}
+            <div class="col-lg-3 col-md-4 wow fadeInUp" data-wow-delay="0.1s">
+                <div class="sidebar-sticky">
+                    
+                    <!-- Categories Widget -->
+                    <div class="widget-card mb-4">
+                        <h4 class="mb-4 fw-bold">Categories</h4>
+                        <ul class="list-unstyled categories-list mb-0">
+                            <li class="mb-2">
+                                <a href="{% url 'shop_page' %}" class="{% if not current_category_id %}active-cat{% endif %}">
+                                    <span>All Products</span>
+                                    <span class="badge bg-light text-dark rounded-pill">{{ products.count }}</span>
                                 </a>
-                                
-                                {% if category.children.exists %}
-                                <ul class="list-unstyled ps-4 mt-1">
-                                    {% for sub in category.children.all %}
-                                    <li>
-                                        <a href="{% url 'shop_category' sub.id %}" 
-                                           class="{% if sub.id == current_category_id %}text-primary{% else %}text-muted{% endif %}" 
-                                           style="font-size: 0.9rem;">
-                                            - {{ sub.name }}
-                                        </a>
-                                    </li>
-                                    {% endfor %}
-                                </ul>
-                                {% endif %}
-                            </div>
-                        </li>
-                        {% endfor %}
-                    </ul>
-                </div>
+                            </li>
 
-                <div class="price mb-4 border p-4 rounded">
-                    <h4 class="mb-2">Price</h4>
-                    <input type="range" class="form-range w-100" id="rangeInput" name="rangeInput" min="0" max="500" value="0" oninput="amount.value=rangeInput.value">
-                    <output id="amount" name="amount" min-velue="0" max-value="500" for="rangeInput">0</output>
-                </div>
-            </div>
-            <div class="col-lg-9 wow fadeInUp" data-wow-delay="0.1s">
-                
-                <div class="rounded mb-4 position-relative">
-                    <img src="{% static 'assets/images/product-banner-3.jpg' %}" class="img-fluid rounded w-100" style="height: 250px; object-fit: cover;" alt="Image">
-                    <div class="position-absolute rounded d-flex flex-column align-items-center justify-content-center text-center"
-                        style="width: 100%; height: 250px; top: 0; left: 0; background: rgba(242, 139, 0, 0.3);">
-                        <h4 class="display-5 text-primary">SALE</h4>
-                        <h3 class="display-4 text-white mb-4">Get UP To 50% Off</h3>
-                        <a href="#" class="btn btn-primary rounded-pill">Shop Now</a>
+                            {% for category in categories %}
+                            <li class="mb-2">
+                                <div class="categories-item">
+                                    <a href="{% url 'shop_category' category.id %}" 
+                                       class="{% if category.id == current_category_id %}active-cat{% endif %}">
+                                        <span><i class="fas fa-chevron-right text-muted me-2 fs-6"></i>{{ category.name }}</span>
+                                    </a>
+                                    
+                                    {% if category.children.exists %}
+                                    <ul class="list-unstyled ps-4 mt-1 border-start ms-2">
+                                        {% for sub in category.children.all %}
+                                        <li>
+                                            <a href="{% url 'shop_category' sub.id %}" 
+                                               class="py-1 {% if sub.id == current_category_id %}text-primary fw-bold{% else %}text-muted{% endif %}" 
+                                               style="font-size: 0.9rem;">
+                                                {{ sub.name }}
+                                            </a>
+                                        </li>
+                                        {% endfor %}
+                                    </ul>
+                                    {% endif %}
+                                </div>
+                            </li>
+                            {% endfor %}
+                        </ul>
                     </div>
-                </div>
 
-                <div class="row g-4 mb-4">
-                    <div class="col-xl-7">
-                        <div class="input-group w-100 mx-auto d-flex">
-                            <input type="search" class="form-control p-3" placeholder="Search products..." aria-describedby="search-icon-1">
-                            <span id="search-icon-1" class="input-group-text p-3"><i class="fa fa-search"></i></span>
+                    <!-- Featured Products Widget -->
+                    <div class="widget-card mb-4">
+                        <h5 class="mb-3 fw-bold">Featured Products</h5>
+
+                        <div class="featured-products-list d-flex flex-column gap-3">
+
+                            {% for product in products|slice:":5" %}
+                                <a href="{% url 'product_view' product.id %}" 
+                                class="text-decoration-none text-dark">
+
+                                    <div class="rounded border overflow-hidden small-feature-item mb-3">
+
+                                        <div class="position-relative bg-white d-flex align-items-center justify-content-center"
+                                            style="height: 120px;">
+                                            {% if product.image %}
+                                                <img src="{{ product.image.url }}"
+                                                    class="img-fluid"
+                                                    style="max-height: 100%; max-width: 100%; object-fit: contain;">
+                                            {% else %}
+                                                <img src="{% static 'img/fruite-item-5.jpg' %}"
+                                                    class="img-fluid"
+                                                    style="max-height: 100%; max-width: 100%; object-fit: contain;">
+                                            {% endif %}
+
+                                            <div class="text-white bg-secondary px-2 py-0 rounded position-absolute"
+                                                style="top: 5px; left: 5px; font-size: 10px;">
+                                                {{ product.category }}
+                                            </div>
+                                        </div>
+
+                                        <div class="p-2">
+                                            <div class="fw-semibold" style="font-size: 13px; line-height: 1.2;">
+                                                {{ product.name }}
+                                            </div>
+
+                                            <div class="text-dark fw-bold" style="font-size: 12px;">
+                                                ₱{{ product.price }} / kg
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </a>
+                            {% endfor %}
+
+
                         </div>
                     </div>
-                    <div class="col-xl-5 text-end">
-                        <div class="bg-light ps-3 py-3 rounded d-flex justify-content-between align-items-center">
-                            <label for="sort">Sort By:</label>
-                            <select id="sort" name="sortlist" class="border-0 form-select-sm bg-light me-3">
-                                <option value="default">Default Sorting</option>
-                                <option value="price_asc">Price: Low to High</option>
-                                <option value="price_desc">Price: High to Low</option>
-                            </select>
+
+
+                    <!-- Promo Banner Widget -->
+                    <div class="widget-card">
+                        <div class="position-relative rounded overflow-hidden shadow-sm">
+                            <img src="{% static 'assets/images/product-banner-2.jpg' %}" class="img-fluid w-100" alt="Promo">
+                            <div class="position-absolute top-0 start-0 w-100 h-100 d-flex flex-column align-items-center justify-content-center text-center p-3"
+                                style="background: rgba(242, 139, 0, 0.3);">
+                                <h5 class="text-primary fw-bold">SALE</h5>
+                                <h6 class="text-white">Up To 50% Off</h6>
+                                <a href="{% url 'shop_page' %}" class="btn btn-primary btn-sm rounded-pill px-3">Shop Now</a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Main Products Section -->
+            <div class="col-lg-9 col-md-8 wow fadeInUp" data-wow-delay="0.1s">
+                
+                <div class="rounded mb-5 position-relative overflow-hidden shadow-sm">
+                    <img src="{% static 'assets/images/product-banner-3.jpg' %}" class="img-fluid w-100" style="height: 280px; object-fit: cover;" alt="Promo Banner">
+                    <div class="position-absolute top-0 start-0 w-100 h-100 d-flex flex-column align-items-center justify-content-center text-center"
+                        style="background: rgba(0, 0, 0, 0.4);">
+                        <h5 class="fw-bold text-uppercase text-primary mb-2">Seasonal Offer</h5>
+                        <h2 class="display-5 text-white fw-bold mb-4">Up To 50% Off</h2>
+                        <a href="#" class="btn btn-primary rounded-pill px-5 py-2 fw-bold">Shop Now</a>
+                    </div>
+                </div>
+
+                <div class="widget-card p-3 mb-4">
+                    <div class="row align-items-center g-3">
+                        <div class="col-xl-7 col-lg-6">
+                            <form method="GET" action="{% url 'shop_page' %}" class="input-group">
+                                <input type="search" name="q" value="{{ search_query }}" class="form-control custom-search-input rounded-pill py-2 ps-4" placeholder="Search products..." aria-describedby="search-icon">
+                                <button type="submit" id="search-icon" class="btn btn-primary rounded-pill ms-2 px-4"><i class="fa fa-search"></i></button>
+                            </form>
+                        </div>
+                        <div class="col-xl-5 col-lg-6">
+                            <div class="d-flex justify-content-lg-end align-items-center">
+                                <label for="sort" class="me-2 text-muted fw-bold"><small>Sort By:</small></label>
+                                <select id="sort" name="sortlist" class="form-select form-select-sm w-auto border-0 bg-light rounded px-3 py-2">
+                                    <option value="default">Default Sorting</option>
+                                    <option value="price_asc">Price: Ascending</option>
+                                    <option value="price_desc">Price: Descending</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
                 </div>
 
                 <div class="row g-4">
                     {% for product in products %}
-                    <div class="col-md-6 col-lg-6 col-xl-4">
-                        <div class="product-item rounded position-relative h-100">
-                            <div class="product-item-inner border rounded h-100 d-flex flex-column">
-                                <div class="product-item-inner-item position-relative overflow-hidden">
-                                    <div style="height: 250px; display: flex; align-items: center; justify-content: center; background-color: #f8f9fa;">
-                                        {% if product.image %}
-                                            <img src="{{ product.image.url }}" class="img-fluid" style="max-height: 100%; width: auto;" alt="{{ product.name }}">
-                                        {% else %}
-                                            <img src="{% static 'assets/images/product-1.png' %}" class="img-fluid" alt="No Image">
-                                        {% endif %}
-                                    </div>
-                                    
-                                    <div class="product-details">
-                                        <a href="{% url 'product_view' product.id %}" class="btn btn-primary rounded-circle p-2"><i class="fa fa-eye text-white"></i></a>
-                                    </div>
-                                </div>
+                    <div class="col-xl-4 col-lg-6 col-md-6">
+                        <div class="product-card border rounded h-100 d-flex flex-column overflow-hidden shadow-sm">
+                            <div class="product-img-wrapper position-relative" style="height: 280px; overflow: hidden; display: flex; align-items: center; justify-content: center; background-color: #f8f9fa;">
+                                {% if product.image %}
+                                    <img src="{{ product.image.url }}" class="img-fluid" style="max-height: 100%; max-width: 100%; object-fit: contain;" alt="{{ product.name }}">
+                                {% else %}
+                                    <img src="{% static 'assets/images/product-1.png' %}" class="img-fluid" style="max-height: 100%; max-width: 100%; object-fit: contain;" alt="No Image">
+                                {% endif %}
                                 
-                                <div class="text-center p-4 mt-auto">
-                                    <a href="{% url 'shop_category' product.category.id %}" class="d-block mb-2 text-muted small">{{ product.category.name }}</a>
-                                    <a href="{% url 'product_view' product.id %}" class="d-block h5 mb-2">{{ product.name }}</a>
-                                    <span class="text-primary fw-bold fs-5">₱{{ product.price }}</span>
-                                </div>
-                                
-                                <div class="product-item-add border-top rounded-bottom text-center p-3">
-                                    <a href="#" class="btn btn-outline-primary rounded-pill px-4">
-                                        <i class="fas fa-shopping-cart me-2"></i> Add To Cart
+                                <div class="product-overlay-btn position-absolute" style="top: 50%; left: 50%; transform: translate(-50%, -50%); opacity: 0; transition: opacity 0.3s;">
+                                    <a href="{% url 'product_view' product.id %}" class="btn btn-primary rounded-circle" style="width: 45px; height: 45px; display: flex; align-items: center; justify-content: center;">
+                                        <i class="fa fa-eye"></i>
                                     </a>
                                 </div>
+                            </div>
+                            
+                            <div class="card-body-custom text-center p-4 flex-grow-1 d-flex flex-column bg-white">
+                                <div class="flex-grow-1">
+                                    <a href="{% url 'shop_category' product.category.id %}" class="text-muted small text-uppercase ls-1 text-decoration-none mb-2 d-block">{{ product.category.name }}</a>
+                                    <a href="{% url 'product_view' product.id %}" class="h6 text-dark text-decoration-none fw-bold d-block mb-2">{{ product.name }}</a>
+                                    <div class="mb-3">
+                                        <span class="text-primary fw-bold fs-5">₱{{ product.price|intcomma }}</span>
+                                    </div>
+                                </div>
+                                
+                                <a href="{% url 'add_cart' product.id %}" class="btn btn-add-cart rounded-pill w-100 fw-bold py-2 mt-auto">
+                                    <i class="fas fa-shopping-cart me-2"></i> Add To Cart
+                                </a>
                             </div>
                         </div>
                     </div>
                     {% empty %}
                     <div class="col-12">
-                        <div class="alert alert-warning text-center">
-                            <h4>No products found in this category.</h4>
-                            <a href="{% url 'shop_page' %}" class="btn btn-dark mt-3">View All Products</a>
+                        <div class="alert alert-light border text-center py-5">
+                            <div class="mb-3"><i class="fas fa-box-open fa-3x text-muted"></i></div>
+                            <h4 class="text-muted">No products found in this category.</h4>
+                            <a href="{% url 'shop_page' %}" class="btn btn-outline-dark mt-3 rounded-pill px-4">View All Products</a>
                         </div>
                     </div>
                     {% endfor %}
-                    
-                    </div>
+                </div>
             </div>
-            </div>
+        </div>
     </div>
 </div>
+    
 {% endblock %}

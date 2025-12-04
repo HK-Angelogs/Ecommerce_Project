@@ -16,43 +16,41 @@
         <div class="row g-4">
             {% for item in history %}
                 <div class="col-md-6 col-lg-4 col-xl-3 wow fadeInUp" data-wow-delay="0.1s">
-                    <div class="product-item rounded">
-                        <div class="product-item-inner border rounded">
+                    <div class="product-item rounded h-100 d-flex flex-column">
+                        
+                        <div class="product-item-inner border rounded flex-grow-1 d-flex flex-column">
                             <div class="product-item-inner-item">
-                                {% if item.product.image %}
-                                    <img src="{{ item.product.image.url }}" class="img-fluid w-100 rounded-top" alt="{{ item.product.name }}">
-                                {% else %}
-                                    <img src="{% static 'assets/images/product-1.png' %}" class="img-fluid w-100 rounded-top" alt="No Image">
-                                {% endif %}
-                                
-                                <div class="product-details">
-                                    <a href="{% url 'product_view' item.product.id %}" aria-label="View Product">
-                                        <i class="fa fa-eye fa-1x"></i>
-                                    </a>
+                                <div style="height: 250px; overflow: hidden; display: flex; align-items: center; justify-content: center; background-color: #f8f9fa;">
+                                    {% if item.product.image %}
+                                        <img src="{{ item.product.image.url }}" class="img-fluid" alt="{{ item.product.name }}" style="max-height: 100%; width: auto;">
+                                    {% else %}
+                                        <img src="{% static 'assets/images/product-1.png' %}" class="img-fluid" alt="No Image" style="max-height: 100%; width: auto;">
+                                    {% endif %}
                                 </div>
-                            </div>
+                                </div>
                             
-                            <div class="text-center rounded-bottom p-4">
-                                <a href="#" class="d-block mb-2">{{ item.product.category.name }}</a>
-                                <a href="{% url 'product_view' item.product.id %}" class="d-block h4">
+                            <div class="text-center rounded-bottom p-4 d-flex flex-column flex-grow-1">
+                                <a href="#" class="d-block mb-2 text-muted small">{{ item.product.category.name }}</a>
+                                <a href="{% url 'product_view' item.product.id %}" class="d-block h4 mb-2">
                                     {{ item.product.name }}
                                 </a>
-                                <span class="text-primary fs-5">₱{{ item.product.price }}</span>
+                                <span class="text-primary fs-5 mt-auto">₱{{ item.product.price|intcomma }}</span>
                             </div>
                         </div>
 
                         <div class="product-item-add border border-top-0 rounded-bottom text-center p-4 pt-0">
-                            <a href="{% url 'product_view' item.product.id %}" class="btn btn-primary border-secondary rounded-pill py-2 px-4 mb-4">
-                                <i class="fas fa-eye me-2"></i> View Again
+                            <a href="{% url 'product_view' item.product.id %}" 
+                               class="btn btn-primary border-secondary rounded-pill py-2 px-4 mt-5 mb-4 d-inline-flex align-items-center justify-content-center" >
+                                View Again
                             </a>
-                            </div>
+                        </div>
                     </div>
                 </div>
             {% empty %}
                 <div class="col-12 text-center wow fadeInUp">
                     <div class="bg-light border rounded py-5">
                         <h3 class="text-dark">You haven't viewed any products yet.</h3>
-                        <a href="/" class="btn btn-primary rounded-pill py-3 px-5 mt-3">Start Shopping</a>
+                        <a href="{% url 'shop_page' %}" class="btn btn-primary rounded-pill py-3 px-5 mt-3">Start Shopping</a>
                     </div>
                 </div>
             {% endfor %}

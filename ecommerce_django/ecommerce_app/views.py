@@ -10,7 +10,8 @@ from.forms import SignUpForm
 from EcommerceProducts.models import Products
 from django.shortcuts import render, redirect, get_object_or_404 # Added get_object_or_404
 from EcommerceProducts.models import Products, Categories # Added Categories
-# ... keep your other existing imports ...
+from django.db.models import Q
+
 
 
 # Create your views here.
@@ -52,26 +53,35 @@ def error_page(request):
     return render(request, '404.html', {})
 
 def shop_page(request, category_id=None):
-    # 1. Get only top-level categories (parents) for the sidebar
+    products = Products.objects.all()
     categories = Categories.objects.filter(parent=None).prefetch_related('children')
-    
-    # 2. Determine which products to show
+    current_category_id = None
+
+    # --- 1. SEARCH LOGIC ---
+    search_query = request.GET.get('q')
+    if search_query:
+        products = products.filter(
+            Q(name__icontains=search_query) | 
+            Q(description__icontains=search_query)
+        )
+
+    # --- 2. CATEGORY LOGIC ---
     if category_id:
-        # Get the specific category
         category = get_object_or_404(Categories, id=category_id)
+        current_category_id = category.id
         
-        # Get products belonging to this category OR its subcategories
-        # We grab the IDs of the category itself + all its children
-        sub_ids = category.children.values_list('id', flat=True)
-        products = Products.objects.filter(category__id__in=list(sub_ids) + [category.id])
-    else:
-        # No category selected? Show everything
-        products = Products.objects.all()
+        # Get list of this category ID AND all its subcategory IDs
+        # This ensures if you click "Electronics", you also see "Laptops"
+        cat_ids = list(category.children.values_list('id', flat=True))
+        cat_ids.append(category.id)
+        
+        products = products.filter(category__id__in=cat_ids)
 
     context = {
         'products': products,
         'categories': categories,
-        'current_category_id': category_id,
+        'search_query': search_query,
+        'current_category_id': current_category_id, # Used for highlighting active tab in sidebar
     }
     return render(request, 'shop.html', context)
 
@@ -120,3 +130,16 @@ def register_user(request):
             return render(request, 'Registration.html', {'form': form})
         
     return render(request, 'Registration.html', {'form': form})
+
+def product_view(request, pk):
+    # 1. Fetch the specific product clicked
+    product = get_object_or_404(Products, pk=pk)
+    
+    # 2. Fetch Related Products (same category, excluding the current one)
+    related_products = Products.objects.filter(category=product.category).exclude(pk=pk)[:4]
+    
+    context = {
+        'product': product,
+        'related_products': related_products,
+    }
+    return render(request, 'single.html', context)
