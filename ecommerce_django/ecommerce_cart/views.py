@@ -5,6 +5,7 @@ from ecommerce_orders.models import OrderItem
 from ecommerce_orders.forms import OrderCreateForm
 from django.core.exceptions import ObjectDoesNotExist
 from ecommerce_orders.models import Order 
+from django.contrib.auth.decorators import login_required
 
 # Private helper to get the cart session ID
 def _cart_id(request):
@@ -13,8 +14,10 @@ def _cart_id(request):
         cart = request.session.create()
     return cart
 
+@login_required(login_url='Login_page')
 def add_cart(request, product_id):
     current_product = get_object_or_404(Products, id=product_id)
+
     try:
         cart = Cart.objects.get(cart_id=_cart_id(request))
     except Cart.DoesNotExist:
@@ -26,13 +29,12 @@ def add_cart(request, product_id):
         cart_item.quantity += 1
         cart_item.save()
     except CartItem.DoesNotExist:
-        cart_item = CartItem.objects.create(
+        CartItem.objects.create(
             product=current_product,
             quantity=1,
             cart=cart
         )
-        cart_item.save()
-    
+
     return redirect('cart_summary')
 
 def cart_summary(request, total_price=0, total_items=0, cart_items=None):
@@ -73,6 +75,7 @@ def cart_delete(request, product_id):
     
     return redirect('cart_summary')
 
+@login_required(login_url='Login_page')
 def checkout(request, total_price=0, total_items=0, cart_items=None):
     try:
         cart = Cart.objects.get(cart_id=_cart_id(request))
@@ -86,10 +89,8 @@ def checkout(request, total_price=0, total_items=0, cart_items=None):
     if request.method == 'POST':
         form = OrderCreateForm(request.POST)
         if form.is_valid():
-            # 1. Save the Order info (address, name, etc.)
             order = form.save()
-            
-            # 2. Transfer Cart items to Order Items (Permanent Record)
+
             for item in cart_items:
                 OrderItem.objects.create(
                     order=order,
@@ -97,11 +98,9 @@ def checkout(request, total_price=0, total_items=0, cart_items=None):
                     price=item.product.price,
                     quantity=item.quantity
                 )
-            
-            # 3. Clear the Cart
+
             cart_items.delete()
-            
-            # 4. Redirect to success page (We will create this next)
+
             return redirect('order_success', order_id=order.id)
     else:
         form = OrderCreateForm()

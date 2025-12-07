@@ -40,10 +40,10 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django.contrib.humanize",
     "ecommerce_app",
-    "users",
     "EcommerceProducts",
     "ecommerce_cart",
     "ecommerce_orders",
+    "users",
 
 ]
 
