@@ -1,0 +1,198 @@
+{% extends 'Base.html' %}
+{% load static %}
+{% load humanize %} {% block content %}
+
+    <div class="container-fluid page-header py-5">
+        <h1 class="text-center text-white display-6 wow fadeInUp" data-wow-delay="0.1s">Product Detail</h1>
+        <ol class="breadcrumb justify-content-center mb-0 wow fadeInUp" data-wow-delay="0.3s">
+            <li class="breadcrumb-item active text-white">{{ product.name }}</li>
+        </ol>
+    </div>
+    <div class="container-fluid shop py-5">
+        <div class="container py-5">
+            <div class="row g-4">
+                <div class="col-lg-5 col-xl-3 wow fadeInUp" data-wow-delay="0.1s">
+
+                    <div class="product-categories mb-4">
+                        <h4>Categories</h4>
+                        <ul class="list-unstyled">
+                            {% for cat in categories %}
+                            <li>
+                                <div class="categories-item">
+                                    <a href="{% url 'shop_category' cat.id %}" class="text-dark">
+                                        <i class="fas fa-angle-right text-secondary me-2"></i> {{ cat.name }}
+                                    </a>
+                                    <span>({{ cat.children.count }})</span>
+                                </div>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    
+                    <div class="mb-4">
+                         <div class="position-relative">
+                            <img src="{% static 'assets/images/product-banner-2.jpg' %}" class="img-fluid w-100 rounded" alt="Image">
+                            <div class="text-center position-absolute d-flex flex-column align-items-center justify-content-center rounded p-4"
+                                style="width: 100%; height: 100%; top: 0; right: 0; background: rgba(242, 139, 0, 0.3);">
+                                <h5 class="display-6 text-primary">SALE</h5>
+                                <h4 class="text-secondary">Get UP To 50% Off</h4>
+                                <a href="{% url 'shop_page' %}" class="btn btn-primary rounded-pill px-4">Shop Now</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-7 col-xl-9 wow fadeInUp" data-wow-delay="0.1s">
+                    <div class="row g-4 single-product">
+                        <div class="col-xl-6">
+                            <div class="single-product-img">
+                                <div class="single-inner bg-light rounded d-flex justify-content-center align-items-center" style="height: 400px;">
+                                    {% if product.image %}
+                                        <img src="{{ product.image.url }}" class="img-fluid rounded" alt="{{ product.name }}" style="max-height: 100%; width: auto;">
+                                    {% else %}
+                                        <img src="{% static 'assets/images/product-1.png' %}" class="img-fluid rounded" alt="Default Image">
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-xl-6">
+                            <h4 class="fw-bold mb-3">{{ product.name }}</h4>
+                            <p class="mb-3">Category: <a href="{% url 'shop_category' product.category.id %}">{{ product.category.name }}</a></p>
+                            <h5 class="fw-bold mb-3 text-primary">₱{{ product.price|intcomma }}</h5>
+                            
+                            <div class="d-flex mb-4">
+                                <i class="fa fa-star text-secondary"></i>
+                                <i class="fa fa-star text-secondary"></i>
+                                <i class="fa fa-star text-secondary"></i>
+                                <i class="fa fa-star text-secondary"></i>
+                                <i class="fa fa-star"></i>
+                            </div>
+
+                            <p class="mb-4">{{ product.description|truncatewords:30 }}</p>
+                            
+                            <div class="input-group quantity mb-5" style="width: 100px;">
+                                <div class="input-group-btn">
+                                    <button class="btn btn-sm btn-minus rounded-circle bg-light border">
+                                        <i class="fa fa-minus"></i>
+                                    </button>
+                                </div>
+                                <input type="text" class="form-control form-control-sm text-center border-0" value="1">
+                                <div class="input-group-btn">
+                                    <button class="btn btn-sm btn-plus rounded-circle bg-light border">
+                                        <i class="fa fa-plus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <a href="{% url 'add_cart' product.id %}" class="btn btn-primary border border-secondary rounded-pill px-4 py-2 mb-4 text-primary">
+                                <i class="fa fa-shopping-bag me-2 text-white"></i> Add to cart
+                            </a>
+                        </div>
+
+                        <div class="col-lg-12">
+                            <nav>
+                                <div class="nav nav-tabs mb-3">
+                                    <button class="nav-link active border-white border-bottom-0" type="button" role="tab"
+                                        id="nav-about-tab" data-bs-toggle="tab" data-bs-target="#nav-about"
+                                        aria-controls="nav-about" aria-selected="true">Description</button>
+                                    <button class="nav-link border-white border-bottom-0" type="button" role="tab"
+                                        id="nav-reviews-tab" data-bs-toggle="tab" data-bs-target="#nav-reviews"
+                                        aria-controls="nav-reviews" aria-selected="false">Reviews</button>
+                                </div>
+                            </nav>
+                            <div class="tab-content mb-5">
+                                <div class="tab-pane active" id="nav-about" role="tabpanel" aria-labelledby="nav-about-tab">
+                                    <p>{{ product.description|linebreaks }}</p>
+                                </div>
+                                
+                                <div class="tab-pane" id="nav-reviews" role="tabpanel" aria-labelledby="nav-reviews-tab">
+                                    <div class="d-flex mb-4">
+                                        <img src="{% static 'assets/images/avatar.jpg' %}" class="img-fluid rounded-circle p-3" style="width: 100px; height: 100px;" alt="">
+                                        <div class="">
+                                            <p class="mb-2" style="font-size: 14px;">April 12, 2024</p>
+                                            <div class="d-flex justify-content-between">
+                                                <h5>Jason Smith</h5>
+                                                <div class="d-flex mb-3">
+                                                    <i class="fa fa-star text-secondary"></i>
+                                                    <i class="fa fa-star text-secondary"></i>
+                                                    <i class="fa fa-star text-secondary"></i>
+                                                    <i class="fa fa-star text-secondary"></i>
+                                                    <i class="fa fa-star"></i>
+                                                </div>
+                                            </div>
+                                            <p>Excellent product quality and fast shipping!</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+        </div>
+    </div>
+    <!-- Replace the entire related products section in single.html with this code -->->
+
+<div class="container-fluid related-product py-5">
+    <div class="container">
+        <div class="mx-auto text-center pb-5" style="max-width: 700px;">
+            <h4 class="text-primary mb-4 border-bottom border-primary border-2 d-inline-block p-2 title-border-radius wow fadeInUp"
+                data-wow-delay="0.1s">Related Products</h4>
+            <p class="wow fadeInUp" data-wow-delay="0.2s">
+                Check out other items in the <strong>{{ product.category.name }}</strong> category.
+            </p>
+        </div>
+        
+        <div class="related-carousel owl-carousel pt-4">
+            {% for related in related_products %}
+            <div class="related-item">
+                <div class="related-card">
+                    <!-- Image Container - SAME AS INDEX.HTML -->
+                    <div class="related-img-wrapper">
+                        {% if related.image %}
+                            <img src="{{ related.image.url }}" class="related-img" alt="{{ related.name }}">
+                        {% else %}
+                            <img src="{% static 'assets/images/product-1.png' %}" class="related-img" alt="Default">
+                        {% endif %}
+                        
+                        <!-- Badge -->
+                        <div class="related-badge">New</div>
+
+                    </div>
+                    
+                    <!-- Card Body -->
+                    <div class="related-card-body">
+                        <a href="{% url 'shop_category' related.category.id %}" class="related-category">
+                            {{ related.category.name }}
+                        </a>
+                        <h5 class="related-title">
+                            <a href="{% url 'product_view' related.id %}">{{ related.name }}</a>
+                        </h5>
+                        <div class="related-price">₱{{ related.price|intcomma }}</div>
+                        
+                        <!-- Star Rating -->
+                        <div class="related-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                        </div>
+                        
+                        <!-- Add to Cart Button -->
+                        <a href="{% url 'product_view' related.id %}" class="btn btn-primary rounded-pill mt-3 w-100">
+                            <i class="fas fa-shopping-cart me-2"></i> Add To Cart
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12 text-center">
+                <p>No other products found in this category.</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}

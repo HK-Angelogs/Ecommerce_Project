@@ -1,0 +1,18 @@
+{% extends 'Base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container-fluid py-5">
+    <div class="container py-5 text-center">
+        <div class="row justify-content-center">
+            <div class="col-lg-6">
+                <i class="fa fa-check-circle display-1 text-primary mb-4"></i>
+                <h1 class="mb-4">Thank You!</h1>
+                <p class="mb-4">Your order <strong>#{{ order.id }}</strong> has been successfully placed.</p>
+                <p class="mb-4">We will contact you at <strong>{{ order.email }}</strong> with your tracking details.</p>
+                <a href="{% url 'home_page' %}" class="btn btn-primary rounded-pill py-3 px-5">Go Back Home</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
