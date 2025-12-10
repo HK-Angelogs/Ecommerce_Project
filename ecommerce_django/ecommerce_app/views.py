@@ -11,6 +11,10 @@ from EcommerceProducts.models import Products
 from django.shortcuts import render, redirect, get_object_or_404 # Added get_object_or_404
 from EcommerceProducts.models import Products, Categories # Added Categories
 from django.db.models import Q
+from django.views.decorators.http import require_POST
+from django.contrib.auth.decorators import login_required
+from EcommerceProducts.models import BrowsingHistory
+
 
 
 
@@ -39,9 +43,6 @@ def Nav_page(request):
 
 def cart_page(request):
     return render(request, 'cart.html', {} )
-
-def bestseller_page(request):
-    return render(request, 'bestseller.html', {} )
 
 def cheackout_page(request):
     return render(request, 'cheackout.html', {})
@@ -158,3 +159,12 @@ def update_user(request):
         messages.error(request, "You need to be logged in to update your profile.")
         return redirect('Login_page')
         
+@login_required
+@require_POST # Ensures this action can only be done via a POST request (safer)
+def clear_history(request):
+    # Delete all history records for the current user
+    BrowsingHistory.objects.filter(user=request.user).delete()
+    messages.success(request, "Your browsing history has been cleared.")
+
+    # Redirect back to the history page (ensure this matches your URL name for the history page)
+    return redirect('history')

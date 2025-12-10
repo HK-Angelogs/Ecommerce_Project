@@ -21,12 +21,11 @@
                         {% if user.is_authenticated %}
                             <a href="{% url 'Logout_page' %}" class="dropdown-item">Log Out</a>
                             <a href="{% url 'history' %}" class="dropdown-item">History</a>
-                            <a href="{% url 'update_user' %}" class="dropdown-item">Update Profile</a>
+                            <a href="{% url 'update_user' %}" class="dropdown-item">My Account</a>
                         {% else %}
                             <a href="{% url 'Login_page' %}" class="dropdown-item">Login</a>
                             <a href="{% url 'register' %}" class="dropdown-item">Register</a>
                         {% endif %}
-                        <a href="#" class="dropdown-item"> My Account</a>
                     </div>
                 </div>
             </div>
@@ -86,7 +85,6 @@
                                 <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
                                 <div class="dropdown-menu m-0">
                                     <a href="{% url 'cart_summary' %}" class="dropdown-item">Cart Page</a>
-                                    <a href="{% url 'cheackout_page' %}" class="dropdown-item">Checkout</a>
                                 </div>
                              </div>
                         {% endif %}

@@ -3,6 +3,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .forms import UserUpdateForm, ProfileUpdateForm
 
+
 @login_required
 def update_user(request):
     if request.method == 'POST':
@@ -20,8 +21,9 @@ def update_user(request):
         p_form = ProfileUpdateForm(instance=request.user.profile)
 
     context = {
-        'u_form': u_form,
-        'p_form': p_form
-    }
+            'u_form': u_form,
+            'p_form': p_form
+        }
 
-    return render(request, 'Update_User.html', context)
+        # PCM Correction: Ensure this string matches your filename exactly "update_user.html"
+    return render(request, 'update_user.html', context)

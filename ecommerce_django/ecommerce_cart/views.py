@@ -6,6 +6,7 @@ from ecommerce_orders.forms import OrderCreateForm
 from django.core.exceptions import ObjectDoesNotExist
 from ecommerce_orders.models import Order 
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 
 # Private helper to get the cart session ID
 def _cart_id(request):
@@ -80,17 +81,29 @@ def checkout(request, total_price=0, total_items=0, cart_items=None):
     try:
         cart = Cart.objects.get(cart_id=_cart_id(request))
         cart_items = CartItem.objects.filter(cart=cart, is_active=True)
+        
+        # Check if cart is empty
+        if not cart_items.exists():
+            messages.warning(request, "Your cart is empty.")
+            return redirect('shop_page') # Redirect to shop if empty
+
         for item in cart_items:
             total_price += (item.product.price * item.quantity)
             total_items += item.quantity
     except ObjectDoesNotExist:
-        pass 
+        messages.warning(request, "Your cart is empty.")
+        return redirect('shop_page') 
 
     if request.method == 'POST':
+        # PCM DEBUG: Print to terminal to confirm POST request received
+        print("Checkout POST received")
+        
         form = OrderCreateForm(request.POST)
         if form.is_valid():
+            print("Form is VALID. Saving order...")
             order = form.save()
 
+            # Create Order Items
             for item in cart_items:
                 OrderItem.objects.create(
                     order=order,
@@ -99,11 +112,32 @@ def checkout(request, total_price=0, total_items=0, cart_items=None):
                     quantity=item.quantity
                 )
 
+            # Clear the cart
             cart_items.delete()
-
+            print(f"Order {order.id} created. Redirecting...")
             return redirect('order_success', order_id=order.id)
+        else:
+            # PCM DEBUG: Print form errors to terminal
+            print("Form is INVALID:", form.errors)
+            messages.error(request, f"There was an error with your form: {form.errors}")
     else:
-        form = OrderCreateForm()
+        # Pre-fill form with user data for GET requests
+        initial_data = {
+            'first_name': request.user.first_name,
+            'last_name': request.user.last_name,
+            'email': request.user.email,
+        }
+        # Check if profile exists before accessing attributes
+        if hasattr(request.user, 'profile'):
+            initial_data.update({
+                'address': request.user.profile.address,
+                'city': request.user.profile.city,
+                'country': request.user.profile.country,
+                'postal_code': request.user.profile.zipcode, # Ensure this matches your Order model field name
+                'phone': request.user.profile.phone,
+            })
+            
+        form = OrderCreateForm(initial=initial_data)
 
     context = {
         'total_price': total_price,

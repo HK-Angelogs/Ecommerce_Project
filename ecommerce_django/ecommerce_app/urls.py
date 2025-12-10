@@ -6,7 +6,6 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path('', views.home_page, name='home_page'),
     path('cart/', views.cart_page, name='cart_page'),
-    path('bestseller/', views.bestseller_page, name='bestseller_page'),
     path('checkout/', views.cheackout_page, name='cheackout_page'),
 
     path('shop/', views.shop_page, name='shop_page'),
@@ -20,4 +19,6 @@ urlpatterns = [
     
     path('register/', views.register_user, name='register'),
     path('update_user/', views.update_user, name='update_user'),
+    path('clear_history/', views.clear_history, name='clear_history'),
+
 ]

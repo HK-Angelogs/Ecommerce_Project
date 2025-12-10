@@ -11051,6 +11051,7 @@
 │   │   │   ├── ASUS_2025_14_inch_Core_i5_Laptop.png
 │   │   │   ├── Asus_Zenbook_14_14-inch.png
 │   │   │   ├── avatar.jpg
+│   │   │   ├── background_gradient.png
 │   │   │   ├── Baseus_Inspire_XH1.png
 │   │   │   ├── Canon_EOS_2000D.png
 │   │   │   ├── Canon_EOS_4000D.png
@@ -11545,7 +11546,8 @@
 │   ├── Nav.html
 │   ├── Registration.html
 │   ├── shop.html
-│   └── single.html
+│   ├── single.html
+│   └── update_user.html
 ├── Tree.txt
 ├── uploads
 │   └── product
@@ -11553,23 +11555,29 @@
 └── users
     ├── admin.py
     ├── apps.py
+    ├── forms.py
     ├── __init__.py
     ├── migrations
     │   ├── 0001_initial.py
+    │   ├── 0002_profile.py
     │   ├── __init__.py
     │   └── __pycache__
     │       ├── 0001_initial.cpython-313.pyc
+    │       ├── 0002_profile.cpython-313.pyc
     │       └── __init__.cpython-313.pyc
     ├── models.py
     ├── __pycache__
     │   ├── admin.cpython-313.pyc
     │   ├── apps.cpython-313.pyc
+    │   ├── forms.cpython-313.pyc
     │   ├── __init__.cpython-313.pyc
     │   ├── models.cpython-313.pyc
+    │   ├── signals.cpython-313.pyc
     │   ├── urls.cpython-313.pyc
     │   └── views.cpython-313.pyc
+    ├── signals.py
     ├── tests.py
     ├── urls.py
     └── views.py
 
-3088 directories, 8485 files
+3088 directories, 8493 files
