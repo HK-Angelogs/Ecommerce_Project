@@ -40,22 +40,17 @@ background:
     no-repeat center center/cover;
 height: 100vh;
 ">
-    <div class="container py-5 h-100">
-        <div class="row d-flex justify-content-center align-items-center h-100">
-            <div class="col col-xl-10">
-                <div class="card" style="border-radius: 1rem;">
-                    <div class="row g-0">
-                        <div class="col-md-6 col-lg-5 d-none d-md-block">
-                            <img src="{% static 'assets/images/login-img.png' %}"
-                                 alt="Registration form" class="img-fluid" 
-                                 style="border-radius: 1rem 0 0 1rem; object-fit: cover; height: 100%;" />
-                        </div>
-                        <div class="col-md-6 col-lg-7 d-flex align-items-center">
-                            <div class="card-body p-4 p-lg-5 text-black w-100">
 
-                                <div class="d-flex align-items-center mb-3 pb-1">
+        <div class="d-flex justify-content-center align-items-center" style="height: 100vh;">
+            <div class="container py-5" >
+                <div class="row justify-content-center">
+                    <div class="col-md-10 col-lg-8 col-xl-6 mx-auto">
+                        <div class="card" style="border-radius: 1rem;">
+                            <div class="card-body p-4 text-black text-center">
+
+                                <div class="d-flex justify-content-center align-items-center mb-4 pb-1">
                                     <i class="fas fa-cubes fa-2x me-3" style="color: #ff6219;"></i>
-                                    <span class="h1 fw-bold mb-0">Register Here</span>
+                                    <span class="h1 fw-bold mb-0">Update Your Profile</span>
                                 </div>
 
                                 <!-- Display non-field errors -->
@@ -69,10 +64,10 @@ height: 100vh;
                                 </div>
                                 {% endif %}
 
-                                <form method="POST" action="{% url 'register' %}" novalidate>
+                                <form method="POST" action="{% url 'update_user' %}" novalidate>
                                     {% csrf_token %}
                                     
-                                    {% for field in form %}
+                                    {% for field in user_form %}
                                     <div class="mb-3">
                                         {{ field }}
                                         
@@ -87,12 +82,8 @@ height: 100vh;
                                     </div>
                                     {% endfor %}
                                     
-                                    <button class="btn btn-dark btn-lg w-100" type="submit">Register</button>
+                                    <button class="btn btn-dark btn-lg w-100" type="submit">Update</button>
                                     <br/>
-
-                                    <div class="text-center mt-3">
-                                        <a href="{% url 'Login_page' %}" class="small text-muted">Already have an account? Login</a>
-                                    </div>
                                 </form>
 
                             </div>
@@ -100,6 +91,7 @@ height: 100vh;
                     </div>
                 </div>
             </div>
+        </div>
         </div>
     </div>
 </section>

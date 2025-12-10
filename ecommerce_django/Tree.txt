@@ -28,16 +28,31 @@
 ├── ecommerce_cart
 │   ├── admin.py
 │   ├── apps.py
+│   ├── ecommerce_cart.txt
 │   ├── __init__.py
 │   ├── migrations
-│   │   └── __init__.py
+│   │   ├── 0001_initial.py
+│   │   ├── __init__.py
+│   │   └── __pycache__
+│   │       ├── 0001_initial.cpython-313.pyc
+│   │       └── __init__.cpython-313.pyc
 │   ├── models.py
+│   ├── __pycache__
+│   │   ├── admin.cpython-313.pyc
+│   │   ├── apps.cpython-313.pyc
+│   │   ├── __init__.cpython-313.pyc
+│   │   ├── models.cpython-313.pyc
+│   │   ├── urls.cpython-313.pyc
+│   │   └── views.cpython-313.pyc
 │   ├── templates
-│   │   ├── cart.html
-│   │   └── cheackout.html
+│   │   └── ecommerce_cart
+│   │       ├── cart_summary.html
+│   │       ├── checkout.html
+│   │       └── order_created.html
 │   ├── tests.py
 │   ├── urls.py
 │   └── views.py
+├── ecommerce_db.sql
 ├── ecommerce_django
 │   ├── asgi.py
 │   ├── __init__.py
@@ -9617,6 +9632,38 @@
 │   │               ├── REQUESTED
 │   │               └── WHEEL
 │   └── pyvenv.cfg
+├── ecommerce_orders
+│   ├── admin.py
+│   ├── apps.py
+│   ├── forms.py
+│   ├── __init__.py
+│   ├── management
+│   │   ├── commands
+│   │   │   ├── __init__.py
+│   │   │   ├── __pycache__
+│   │   │   │   ├── __init__.cpython-313.pyc
+│   │   │   │   └── start_order_processor.cpython-313.pyc
+│   │   │   └── start_order_processor.py
+│   │   ├── __init__.py
+│   │   └── __pycache__
+│   │       └── __init__.cpython-313.pyc
+│   ├── migrations
+│   │   ├── 0001_initial.py
+│   │   ├── 0002_order_status.py
+│   │   ├── __init__.py
+│   │   └── __pycache__
+│   │       ├── 0001_initial.cpython-313.pyc
+│   │       ├── 0002_order_status.cpython-313.pyc
+│   │       └── __init__.cpython-313.pyc
+│   ├── models.py
+│   ├── __pycache__
+│   │   ├── admin.cpython-313.pyc
+│   │   ├── apps.cpython-313.pyc
+│   │   ├── forms.cpython-313.pyc
+│   │   ├── __init__.cpython-313.pyc
+│   │   └── models.cpython-313.pyc
+│   ├── tests.py
+│   └── views.py
 ├── EcommerceProducts
 │   ├── admin.py
 │   ├── apps.py
@@ -9626,12 +9673,14 @@
 │   │   ├── 0002_browsinghistory.py
 │   │   ├── 0003_alter_categories_options_categories_parent.py
 │   │   ├── 0004_alter_products_description.py
+│   │   ├── 0005_delete_orders.py
 │   │   ├── __init__.py
 │   │   └── __pycache__
 │   │       ├── 0001_initial.cpython-313.pyc
 │   │       ├── 0002_browsinghistory.cpython-313.pyc
 │   │       ├── 0003_alter_categories_options_categories_parent.cpython-313.pyc
 │   │       ├── 0004_alter_products_description.cpython-313.pyc
+│   │       ├── 0005_delete_orders.cpython-313.pyc
 │   │       └── __init__.cpython-313.pyc
 │   ├── models.py
 │   ├── __pycache__
@@ -11507,11 +11556,9 @@
     ├── __init__.py
     ├── migrations
     │   ├── 0001_initial.py
-    │   ├── 0002_customer_delete_person.py
     │   ├── __init__.py
     │   └── __pycache__
     │       ├── 0001_initial.cpython-313.pyc
-    │       ├── 0002_customer_delete_person.cpython-313.pyc
     │       └── __init__.cpython-313.pyc
     ├── models.py
     ├── __pycache__
@@ -11525,4 +11572,4 @@
     ├── urls.py
     └── views.py
 
-3077 directories, 8449 files
+3088 directories, 8485 files
